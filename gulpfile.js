@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
-const jade = require('gulp-jade');
+const pug = require('gulp-pug');
 const gutil = require('gulp-util');
 const babel = require('gulp-babel');
 const clean = require('gulp-clean');
@@ -12,11 +12,11 @@ const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync').create();
 
-gulp.task('jade', () =>
-  gulp.src('./src/jade/index.jade')
-      .pipe(jade(gutil.env.production ? {} : { pretty: true }))
+gulp.task('pug', () =>
+  gulp.src('./src/pug/**/*.pug')
+      .pipe(pug(gutil.env.production ? {} : { pretty: true }))
       .on('error', notify.onError('Error: <%= error.message %>'))
-      .pipe(gulp.dest('./'))
+      .pipe(gulp.dest('./dist'))
       .pipe(notify('File: ./<%= file.relative %> Compiled!'))
       .pipe(browserSync.reload({ stream: true }))
 );
@@ -85,7 +85,7 @@ gulp.task('clean:temp', ['css', 'js'], () =>
 );
 
 gulp.task('clean:dist', () =>
-  gulp.src(['./dist', 'index.html'])
+  gulp.src('./dist')
       .pipe(clean())
 );
 
@@ -94,13 +94,13 @@ gulp.task('clean', ['clean:temp', 'clean:dist']);
 gulp.task('watch', () => {
   browserSync.init({
     host: '0.0.0.0',
-    server: './',
+    server: './dist',
     open: false
   });
 
-  gulp.watch('./src/jade/**/*.jade', ['jade']);
+  gulp.watch('./src/pug/**/*.pug', ['pug']);
   gulp.watch('./src/sass/**/*.scss', ['css']);
   gulp.watch('./src/babel/**/*.js', ['js']);
 });
 
-gulp.task('default', ['jade', 'css', 'js', 'copy', 'clean:temp']);
+gulp.task('default', ['pug', 'css', 'js', 'copy', 'clean:temp']);
