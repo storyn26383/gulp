@@ -71,13 +71,19 @@ gulp.task('js', ['babel'], () =>
       .pipe(browserSync.reload({ stream: true }))
 );
 
+gulp.task('copy:images', () =>
+  gulp.src('./src/img/**/*')
+      .pipe(gulp.dest('./dist/img'))
+      .pipe(notify('File: ./dist/img/<%= file.relative %> Copied!'))
+);
+
 gulp.task('copy:fonts', () =>
   gulp.src('./bower_components/font-awesome-sass/assets/fonts/**/*')
       .pipe(gulp.dest('./dist/fonts'))
       .pipe(notify('File: ./dist/fonts/<%= file.relative %> Copied!'))
 );
 
-gulp.task('copy', ['copy:fonts']);
+gulp.task('copy', ['copy:fonts', 'copy:images']);
 
 gulp.task('clean:temp', ['css', 'js'], () =>
   gulp.src('./temp')
