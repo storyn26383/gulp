@@ -114,6 +114,7 @@ gulp.task('watch', () => {
   );
   gulp.watch('./src/sass/**/*.scss', ['css']);
   gulp.watch('./src/babel/**/*.js', ['js']);
+  gulp.watch('./src/img/**/*', ['copy:images']);
 });
 
 gulp.task('default', ['pug', 'css', 'js', 'copy', 'clean:temp']);
