@@ -11,6 +11,7 @@ const cleanCss = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync').create();
+const pugIngeritance = require('@unisharp/gulp-pug-inheritance');
 
 gulp.task('pug', () =>
   gulp.src('./src/pug/**/*.pug')
@@ -18,7 +19,6 @@ gulp.task('pug', () =>
       .on('error', notify.onError('Error: <%= error.message %>'))
       .pipe(gulp.dest('./dist'))
       .pipe(notify('File: ./<%= file.relative %> Compiled!'))
-      .pipe(browserSync.reload({ stream: true }))
 );
 
 gulp.task('sass', () =>
@@ -104,7 +104,14 @@ gulp.task('watch', () => {
     open: false
   });
 
-  gulp.watch('./src/pug/**/*.pug', ['pug']);
+  gulp.watch('./src/pug/**/*.pug', e =>
+    gulp.src(e.path, { base: './src/pug' })
+        .pipe(pug({ pretty: true }))
+        .on('error', notify.onError('Error: <%= error.message %>'))
+        .pipe(gulp.dest('./dist'))
+        .pipe(notify('File: ./<%= file.relative %> Compiled!'))
+        .pipe(browserSync.reload({ stream: true }))
+  );
   gulp.watch('./src/sass/**/*.scss', ['css']);
   gulp.watch('./src/babel/**/*.js', ['js']);
 });
