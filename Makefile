@@ -1,17 +1,17 @@
 init:
 	yarn install
-	bower install
+	./node_modules/.bin/bower install
 	make build
 
 build:
-	gulp
+	./node_modules/.bin/gulp
 
 build-prod:
-	gulp --production
+	./node_modules/.bin/gulp --production
 
 watch:
-	gulp watch
+	./node_modules/.bin/gulp watch
 
 clean:
-	gulp clean
+	./node_modules/.bin/gulp clean
 	rm -rf bower_components node_modules
