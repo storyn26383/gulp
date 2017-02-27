@@ -17,8 +17,8 @@ gulp.task('pug', () =>
   gulp.src('./src/pug/**/*.pug')
       .pipe(pug(gutil.env.production ? {} : { pretty: true }))
       .on('error', notify.onError('Error: <%= error.message %>'))
-      .pipe(gulp.dest('./dist'))
-      .pipe(notify('File: ./<%= file.relative %> Compiled!'))
+      .pipe(gulp.dest('./public'))
+      .pipe(notify('File: ./public/<%= file.relative %> Compiled!'))
 );
 
 gulp.task('sass', () =>
@@ -40,8 +40,8 @@ gulp.task('css', ['sass'], () =>
       .pipe(concat('app.css'))
       .pipe(gutil.env.production ? cleanCss() : gutil.noop())
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest('./dist/css'))
-      .pipe(notify('File: ./dist/css/<%= file.relative %> Compiled!'))
+      .pipe(gulp.dest('./public/css'))
+      .pipe(notify('File: ./public/css/<%= file.relative %> Compiled!'))
       .pipe(browserSync.stream({ match: '**/*.css' }))
 );
 
@@ -57,30 +57,30 @@ gulp.task('babel', () =>
 
 gulp.task('js', ['babel'], () =>
   gulp.src([
-        './bower_components/jquery/dist/jquery.js',
-        './bower_components/tether/dist/js/tether.js',
-        './bower_components/bootstrap/dist/js/bootstrap.js',
+        './bower_components/jquery/public/jquery.js',
+        './bower_components/tether/public/js/tether.js',
+        './bower_components/bootstrap/public/js/bootstrap.js',
         './temp/js/app.js'
       ])
       .pipe(sourcemaps.init())
       .pipe(concat('app.js'))
       .pipe(gutil.env.production ? uglify() : gutil.noop())
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest('./dist/js'))
-      .pipe(notify('File: ./dist/js/<%= file.relative %> Compiled!'))
+      .pipe(gulp.dest('./public/js'))
+      .pipe(notify('File: ./public/js/<%= file.relative %> Compiled!'))
       .pipe(browserSync.reload({ stream: true }))
 );
 
 gulp.task('copy:images', () =>
   gulp.src('./src/img/**/*')
-      .pipe(gulp.dest('./dist/img'))
-      .pipe(notify('File: ./dist/img/<%= file.relative %> Copied!'))
+      .pipe(gulp.dest('./public/img'))
+      .pipe(notify('File: ./public/img/<%= file.relative %> Copied!'))
 );
 
 gulp.task('copy:fonts', () =>
   gulp.src('./bower_components/font-awesome-sass/assets/fonts/**/*')
-      .pipe(gulp.dest('./dist/fonts'))
-      .pipe(notify('File: ./dist/fonts/<%= file.relative %> Copied!'))
+      .pipe(gulp.dest('./public/fonts'))
+      .pipe(notify('File: ./public/fonts/<%= file.relative %> Copied!'))
 );
 
 gulp.task('copy', ['copy:fonts', 'copy:images']);
@@ -91,7 +91,7 @@ gulp.task('clean:temp', ['css', 'js'], () =>
 );
 
 gulp.task('clean:dist', () =>
-  gulp.src('./dist')
+  gulp.src('./public')
       .pipe(clean())
 );
 
@@ -100,7 +100,7 @@ gulp.task('clean', ['clean:temp', 'clean:dist']);
 gulp.task('watch', () => {
   browserSync.init({
     host: '0.0.0.0',
-    server: './dist',
+    server: './public',
     open: false
   });
 
@@ -108,7 +108,7 @@ gulp.task('watch', () => {
     gulp.src(e.path, { base: './src/pug' })
         .pipe(pug({ pretty: true }))
         .on('error', notify.onError('Error: <%= error.message %>'))
-        .pipe(gulp.dest('./dist'))
+        .pipe(gulp.dest('./public'))
         .pipe(notify('File: ./<%= file.relative %> Compiled!'))
         .pipe(browserSync.reload({ stream: true }))
   );

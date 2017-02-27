@@ -4,5 +4,5 @@ Thumbs.db
 .DS_Store
 ._*
 
-/dist
+/public
 /temp
