@@ -57,9 +57,9 @@ gulp.task('babel', () =>
 
 gulp.task('js', ['babel'], () =>
   gulp.src([
-        './bower_components/jquery/public/jquery.js',
-        './bower_components/tether/public/js/tether.js',
-        './bower_components/bootstrap/public/js/bootstrap.js',
+        './bower_components/jquery/dist/jquery.js',
+        './bower_components/tether/dist/js/tether.js',
+        './bower_components/bootstrap/dist/js/bootstrap.js',
         './temp/js/app.js'
       ])
       .pipe(sourcemaps.init())
