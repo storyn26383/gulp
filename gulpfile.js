@@ -36,7 +36,7 @@ gulp.task('css', ['sass'], () =>
   gulp.src([
         './temp/css/app.css'
       ])
-      .pipe(sourcemaps.init())
+      .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(concat('app.css'))
       .pipe(gutil.env.production ? cleanCss() : gutil.noop())
       .pipe(sourcemaps.write('.'))
@@ -62,7 +62,7 @@ gulp.task('js', ['babel'], () =>
         './bower_components/bootstrap/dist/js/bootstrap.js',
         './temp/js/app.js'
       ])
-      .pipe(sourcemaps.init())
+      .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(concat('app.js'))
       .pipe(gutil.env.production ? uglify() : gutil.noop())
       .pipe(sourcemaps.write('.'))
