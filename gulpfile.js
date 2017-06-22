@@ -72,9 +72,9 @@ gulp.task('js', ['babel'], () =>
 );
 
 gulp.task('copy:images', () =>
-  gulp.src('./src/img/**/*')
-      .pipe(gulp.dest('./public/img'))
-      .pipe(notify('File: ./public/img/<%= file.relative %> Copied!'))
+  gulp.src('./src/images/**/*')
+      .pipe(gulp.dest('./public/images'))
+      .pipe(notify('File: ./public/images/<%= file.relative %> Copied!'))
 );
 
 gulp.task('copy:fonts', () =>
@@ -115,7 +115,7 @@ gulp.task('watch', () => {
   );
   gulp.watch('./src/sass/**/*.scss', ['css']);
   gulp.watch('./src/babel/**/*.js', ['js']);
-  gulp.watch('./src/img/**/*', ['copy:images']);
+  gulp.watch('./src/images/**/*', ['copy:images']);
 });
 
 gulp.task('default', ['pug', 'css', 'js', 'copy', 'clean:temp']);
