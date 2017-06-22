@@ -11,7 +11,7 @@ const cleanCss = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync').create();
-const pugIngeritance = require('@unisharp/gulp-pug-inheritance');
+const pugInheritance = require('@unisharp/gulp-pug-inheritance');
 
 gulp.task('pug', () =>
   gulp.src('./src/pug/**/*.pug')
@@ -106,6 +106,7 @@ gulp.task('watch', () => {
 
   gulp.watch('./src/pug/**/*.pug', e =>
     gulp.src(e.path, { base: './src/pug' })
+        .pipe(pugInheritance('./src/pug/**/*.pug'))
         .pipe(pug({ pretty: true }))
         .on('error', notify.onError('Error: <%= error.message %>'))
         .pipe(gulp.dest('./public'))
